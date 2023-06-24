@@ -21,7 +21,6 @@ public class AccessibilityMode : MonoBehaviour
 
     void Update()
     {
-
         // KEEP FOR PC TESTING
         // if the fish was on the hook, the player will tap space 3 times to catch it
         if (fishOnHook)
@@ -33,7 +32,6 @@ public class AccessibilityMode : MonoBehaviour
                 {
                     GetThreeTapFish();
                 }
-
                 else
                 {
                     return;
@@ -88,8 +86,6 @@ public class AccessibilityMode : MonoBehaviour
             }
         }
     }
-
-
     private IEnumerator ActivateFishPrompt()
     {
         Debug.Log("Coroutine Started");
