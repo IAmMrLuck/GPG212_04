@@ -8,11 +8,14 @@ public class AccessibilityMode : MonoBehaviour
     private int spaceKeyPressCount;
     private bool fishOnHook;
 
+    [SerializeField] private GameObject fishOnHookMsg;
+    private Coroutine FishMessage;
 
 
     void Start()
     {
         fishOnHook = false;
+        fishOnHookMsg.SetActive(false);
     }
 
     void Update()
@@ -23,17 +26,7 @@ public class AccessibilityMode : MonoBehaviour
             // Check for the space key press
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                spaceKeyPressCount++;
-
-                if (spaceKeyPressCount >= 3)
-                {
-                    Debug.Log("Congratulations! You caught the fish!");
-                    fishOnHook = false; // cannot cast the line again until they've caught the fish
-                }
-                else
-                {
-                    Debug.Log("Press Space " + (3 - spaceKeyPressCount) + " more time(s) to catch the fish.");
-                }
+                GetFish();
             }
         }
 
@@ -46,7 +39,9 @@ public class AccessibilityMode : MonoBehaviour
 
                 if (fishCatchChance < 3.5f)
                 {
-                    Debug.Log("Fish Caught");
+                    Debug.Log("fish is on Hook");
+                    StartCoroutine("ActivateFishPrompt");
+                    Debug.Log("Coroutine Called");
                     fishOnHook = true;
                     spaceKeyPressCount = 0;
                     Debug.Log("Press Space to catch the Fish!");
@@ -59,5 +54,29 @@ public class AccessibilityMode : MonoBehaviour
         }
     }
 
+    public void GetFish()
+    {
+        spaceKeyPressCount++;
+        if (spaceKeyPressCount >= 3)
+        {
+            Debug.Log("Congratulations! You caught the fish!");
+            fishOnHook = false; // cannot cast the line again until they've caught the fish
+            StopCoroutine("ActivateFishPrompt");
+        }
+        else
+        {
+            Debug.Log("Press Space " + (3 - spaceKeyPressCount) + " more time(s) to catch the fish.");
+        }
+    }
 
+
+    private IEnumerator ActivateFishPrompt()
+    {
+        Debug.Log("Coroutine Started");
+        fishOnHookMsg.SetActive(true);
+
+        yield return new WaitForSeconds(2);
+
+        fishOnHookMsg.SetActive(false);
+    }
 }
