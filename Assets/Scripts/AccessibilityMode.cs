@@ -9,8 +9,8 @@ public class AccessibilityMode : MonoBehaviour
     private bool fishOnHook;
 
     [SerializeField] private GameObject fishOnHookMsg;
-    private Coroutine FishMessage;
 
+    private bool threeTapMode;
 
     void Start()
     {
@@ -26,7 +26,15 @@ public class AccessibilityMode : MonoBehaviour
             // Check for the space key press
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                GetFish();
+                if(threeTapMode == true)
+                {
+                    GetThreeTapFish();
+                }
+
+                if(threeTapMode == false)
+                {
+
+                }
             }
         }
 
@@ -54,20 +62,20 @@ public class AccessibilityMode : MonoBehaviour
         }
     }
 
-    public void GetFish()
+    public void GetThreeTapFish()
     {
         spaceKeyPressCount++;
         if (spaceKeyPressCount >= 3)
         {
             Debug.Log("Congratulations! You caught the fish!");
             fishOnHook = false; // cannot cast the line again until they've caught the fish
-            StopCoroutine("ActivateFishPrompt");
         }
         else
         {
             Debug.Log("Press Space " + (3 - spaceKeyPressCount) + " more time(s) to catch the fish.");
         }
     }
+
 
 
     private IEnumerator ActivateFishPrompt()
