@@ -8,7 +8,7 @@ namespace ConaLuk
 
     public class FishBehaviour : MonoBehaviour
     {
-
+        [SerializeField] private Rigidbody2D fishRB;
         [SerializeField] private GameObject fish;
         [SerializeField] private GameObject lineCatch;
 
@@ -27,6 +27,12 @@ namespace ConaLuk
         // Update is called once per frame
         void Update()
         {
+
+            if(Input.GetKey(KeyCode.Space))
+            {
+                fish.transform.SetParent(lineCatch.transform);
+                fishRB.isKinematic = true;
+            }
             // is the fish on a hook
             // if it is, then prompt player to reel it in
 
