@@ -1,4 +1,5 @@
 using ConaLuk;
+using Microsoft.Unity.VisualStudio.Editor;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,12 +8,13 @@ public class FishInventory : MonoBehaviour
 {
     private int fishingScore;
     public FishDisplay fish;
-    
+    [SerializeField] private Image[] inventorySlots;
 
     void Start()
     {
         fishingScore = 0;
     }
+
 
     public void FishScore()
     {

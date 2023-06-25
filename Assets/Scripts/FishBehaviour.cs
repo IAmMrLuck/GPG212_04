@@ -12,6 +12,10 @@ namespace ConaLuk
         [SerializeField] private GameObject fish;
         [SerializeField] private GameObject lineCatch;
 
+        [SerializeField] private GameObject caughtFish;
+        [SerializeField] private Transform canvasTransform;
+        [SerializeField] private Transform placeToSpawn;
+
         private bool onHook = false;
 
         // animations for line
@@ -44,7 +48,10 @@ namespace ConaLuk
 
         }
 
-
-
+        public void CatchTheFish()
+        {
+            GameObject currentFish = Instantiate(caughtFish, placeToSpawn);
+            currentFish.transform.SetParent(canvasTransform);
+        }
     }
 }

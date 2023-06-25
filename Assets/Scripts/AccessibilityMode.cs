@@ -59,7 +59,11 @@ public class AccessibilityMode : MonoBehaviour
             {
                 Debug.Log("Congratulations! You caught the fish!");
                 fishInventoryCS.FishScore();
-                // call method of decidsing fish
+
+                // instantiat6e fish type
+                // CatchThefish()
+                // call method of deciding fish
+
                 fishOnHook = false; // cannot cast the line again until they've caught the fish
             }
             else
@@ -79,7 +83,9 @@ public class AccessibilityMode : MonoBehaviour
                 {
                     Debug.Log("Congratulations! You caught the fish!");
                     fishInventoryCS.FishScore();
-                    // call method of decidsing fish
+
+                    // call method of deciding fish
+
                     fishOnHook = false; // cannot cast the line again until they've caught the fish
                 }
                 else
