@@ -12,6 +12,8 @@ public class AccessibilityMode : MonoBehaviour
 
     private bool threeTapMode;
 
+    [SerializeField] private FishInventory fishInventoryCS;
+
     void Start()
     {
         fishOnHook = false;
@@ -56,11 +58,34 @@ public class AccessibilityMode : MonoBehaviour
             if (spaceKeyPressCount >= 3)
             {
                 Debug.Log("Congratulations! You caught the fish!");
+                fishInventoryCS.FishScore();
+                // call method of decidsing fish
                 fishOnHook = false; // cannot cast the line again until they've caught the fish
             }
             else
             {
                 Debug.Log("Press Space " + (3 - spaceKeyPressCount) + " more time(s) to catch the fish.");
+            }
+        }
+    }
+
+    public void MashReelButton()
+    {
+        {
+            if (fishOnHook == true && threeTapMode == false)
+            {
+                spaceKeyPressCount++;
+                if (spaceKeyPressCount >= 10)
+                {
+                    Debug.Log("Congratulations! You caught the fish!");
+                    fishInventoryCS.FishScore();
+                    // call method of decidsing fish
+                    fishOnHook = false; // cannot cast the line again until they've caught the fish
+                }
+                else
+                {
+                    Debug.Log("Press Space " + (10 - spaceKeyPressCount) + " more time(s) to catch the fish.");
+                }
             }
         }
     }
