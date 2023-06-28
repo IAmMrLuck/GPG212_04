@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: GoldenPerch
   m_EditorClassIdentifier: 
   fishName: Golden  Perch
-  fishPhoto: {fileID: 0}
+  fishPhoto: {fileID: 21300000, guid: 13756a4847107a441a46173ffa6d7d0c, type: 3}
   fishHeight: 
   fishLength: 
   fishFact: 

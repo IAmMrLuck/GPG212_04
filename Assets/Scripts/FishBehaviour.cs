@@ -48,10 +48,5 @@ namespace ConaLuk
 
         }
 
-        public void CatchTheFish()
-        {
-            GameObject currentFish = Instantiate(caughtFish, placeToSpawn);
-            currentFish.transform.SetParent(canvasTransform);
-        }
     }
 }

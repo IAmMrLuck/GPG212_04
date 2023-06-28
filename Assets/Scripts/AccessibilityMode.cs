@@ -1,38 +1,35 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 
 public class AccessibilityMode : MonoBehaviour
 {
     private int spaceKeyPressCount;
-    private bool fishOnHook;
+    public static bool fishOnHook;
 
     [SerializeField] private GameObject fishOnHookMsg;
 
-    private bool threeTapMode;
+    private bool isThreeTapMode;
 
-    [SerializeField] private FishInventory fishInventoryCS;
+    [SerializeField] private FishInventory fishInventory;
 
-    void Start()
+    public string[] availableFish;
+
+    private void Start()
     {
         fishOnHook = false;
         fishOnHookMsg.SetActive(false);
-        threeTapMode = false; // fix this button option for accessibility purposes
+        isThreeTapMode = false;
     }
 
-    void Update()
+    private void Update()
     {
-        // KEEP FOR PC TESTING
-        // if the fish was on the hook, the player will tap space 3 times to catch it
         if (fishOnHook)
         {
-            // Check for the space key press
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                if(threeTapMode == true)
+                if (isThreeTapMode)
                 {
-                    GetThreeTapFish();
+                    GetFish();
                 }
                 else
                 {
@@ -42,7 +39,6 @@ public class AccessibilityMode : MonoBehaviour
         }
         else
         {
-            // Cast the fishing line
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 CastRod();
@@ -50,66 +46,60 @@ public class AccessibilityMode : MonoBehaviour
         }
     }
 
-    public void GetThreeTapFish()
+    private void GetFish()
     {
-        if (fishOnHook == true && threeTapMode == true)
+        if (fishOnHook && isThreeTapMode)
         {
             spaceKeyPressCount++;
             if (spaceKeyPressCount >= 3)
             {
                 Debug.Log("Congratulations! You caught the fish!");
-                fishInventoryCS.FishScore();
-
-                // instantiat6e fish type
-                // CatchThefish()
-                // call method of deciding fish
-
-                fishOnHook = false; // cannot cast the line again until they've caught the fish
+                fishInventory.FishScore();
+                fishOnHook = false;
             }
             else
             {
-                Debug.Log("Press Space " + (3 - spaceKeyPressCount) + " more time(s) to catch the fish.");
+                Debug.Log(string.Format("Press Space {0} more time(s) to catch the fish.", 3 - spaceKeyPressCount));
             }
         }
     }
 
     public void MashReelButton()
     {
+        if (fishOnHook && !isThreeTapMode)
         {
-            if (fishOnHook == true && threeTapMode == false)
+            spaceKeyPressCount++;
+            if (spaceKeyPressCount >= 10)
             {
-                spaceKeyPressCount++;
-                if (spaceKeyPressCount >= 10)
-                {
-                    Debug.Log("Congratulations! You caught the fish!");
-                    fishInventoryCS.FishScore();
-
-                    // call method of deciding fish
-
-                    fishOnHook = false; // cannot cast the line again until they've caught the fish
-                }
-                else
-                {
-                    Debug.Log("Press Space " + (10 - spaceKeyPressCount) + " more time(s) to catch the fish.");
-                }
+                Debug.Log("Congratulations! You caught the fish!");
+                CatchRandomFish();
+                fishInventory.FishScore();
+            }
+            else
+            {
+                Debug.Log(string.Format("Press Space {0} more time(s) to catch the fish.", 10 - spaceKeyPressCount));
             }
         }
     }
 
-    public void CastRod()
+    private void Catch(string fishName)
     {
-        if (fishOnHook == false)
+        Debug.Log("Called Catch()");
+        fishInventory.CatchFish(fishName);
+    }
+
+    private void CastRod()
+    {
+        if (!fishOnHook)
         {
             float fishCatchChance = Random.Range(0f, 5f);
-
             if (fishCatchChance < 3.5f)
             {
-                Debug.Log("fish is on Hook");
-                StartCoroutine("ActivateFishPrompt");
-                Debug.Log("Coroutine Called");
+                Debug.Log("Fish is on the hook");
+                StartCoroutine(ActivateFishPrompt());
                 fishOnHook = true;
                 spaceKeyPressCount = 0;
-                Debug.Log("Press Space to catch the Fish!");
+                Debug.Log("Press Space to catch the fish!");
             }
             else
             {
@@ -117,27 +107,26 @@ public class AccessibilityMode : MonoBehaviour
             }
         }
     }
+
     private IEnumerator ActivateFishPrompt()
     {
         Debug.Log("Coroutine Started");
         fishOnHookMsg.SetActive(true);
-
         yield return new WaitForSeconds(2);
-
         fishOnHookMsg.SetActive(false);
     }
 
     public void SetThreeTapMode()
     {
-        if(threeTapMode == true)
-        {
-            threeTapMode = false;
-        }
-
-        else if (threeTapMode == false)
-        {
-            threeTapMode = true;
-        }
+        isThreeTapMode = !isThreeTapMode;
     }
 
+    public void CatchRandomFish()
+    {
+        int randomIndex = Random.Range(0, availableFish.Length);
+        string fishName = availableFish[randomIndex];
+        Debug.Log("Random Number selected " + randomIndex);
+        Debug.Log("Fish Caught was " + fishName);
+        Catch(fishName);
+    }
 }

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: AustralianBass
   m_EditorClassIdentifier: 
   fishName: Australian Bass
-  fishPhoto: {fileID: 0}
+  fishPhoto: {fileID: 21300000, guid: d6e5693f432fd9447b7fcc485f217989, type: 3}
   fishHeight: 
   fishLength: 
   fishFact: 

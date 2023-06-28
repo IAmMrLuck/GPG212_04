@@ -1,14 +1,17 @@
 using ConaLuk;
-using Microsoft.Unity.VisualStudio.Editor;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class FishInventory : MonoBehaviour
 {
     private int fishingScore;
-    public FishDisplay fish;
-    [SerializeField] private Image[] inventorySlots;
+    public GameObject[] inventoryImages;
+    public string[] fishNames;
+
+    public GameObject caughtFish;
+    
 
     void Start()
     {
@@ -18,9 +21,27 @@ public class FishInventory : MonoBehaviour
 
     public void FishScore()
     {
+
         fishingScore++;
+        AccessibilityMode.fishOnHook = false;
+
         Debug.Log("Score is " + fishingScore);
-        Debug.Log("You Caught a " + fish.scriptableObjects);
+
+    }
+
+
+    public void CatchFish(string fishName)
+    {
+        Debug.Log("You have called the method CatchFish()");
+        for (int i = 0; i < fishNames.Length; i++)
+        {
+            if (fishNames[i] == fishName)
+            {
+                inventoryImages[i].SetActive(true);
+                Debug.Log("Opened Inventory slot");
+                break;
+            }
+        }
     }
 
     // each type of fish is kept as a seperate score

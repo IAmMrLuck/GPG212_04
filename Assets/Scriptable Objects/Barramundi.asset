@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Barramundi
   m_EditorClassIdentifier: 
   fishName: Barramundi
-  fishPhoto: {fileID: 0}
+  fishPhoto: {fileID: 21300000, guid: 514f426793d20a14b9c54e3c20cd8280, type: 3}
   fishHeight: 
   fishLength: 
   fishFact: 
