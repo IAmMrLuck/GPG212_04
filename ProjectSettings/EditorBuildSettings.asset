@@ -12,4 +12,6 @@ EditorBuildSettings:
     path: Assets/Scenes/FishingScene.unity
     guid: 6c81c869b249a27458f024cc37468a87
   m_configObjects:
+    com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: 0f6b25179d2e2ce499b71fbd63a5e576, type: 2}
+    com.unity.adaptiveperformance.samsung.android.provider_settings: {fileID: 11400000, guid: bb01a4d908690ac4985eba2b274ece49, type: 2}
     com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000, guid: 19255321f576d93409bc7c2b2249a0c9, type: 2}
