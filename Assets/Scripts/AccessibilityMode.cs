@@ -23,50 +23,50 @@ public class AccessibilityMode : MonoBehaviour
 
     private void Update()
     {
-        if (fishOnHook)
-        {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                if (isThreeTapMode)
-                {
-                    GetFish();
-                }
-                else
-                {
-                    return;
-                }
-            }
-        }
-        else
-        {
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                CastRod();
-            }
-        }
+        //if (fishOnHook)
+        //{
+        //    if (Input.GetKeyDown(KeyCode.Space))
+        //    {
+        //        if (isThreeTapMode)
+        //        {
+        //            GetFish();
+        //        }
+        //        else
+        //        {
+        //            return;
+        //        }
+        //    }
+        //}
+        //else
+        //{
+        //    if (Input.GetKeyDown(KeyCode.Escape))
+        //    {
+        //        CastRod();
+        //    }
+        //}
     }
 
-    private void GetFish()
-    {
-        if (fishOnHook && isThreeTapMode)
-        {
-            spaceKeyPressCount++;
-            if (spaceKeyPressCount >= 3)
-            {
-                Debug.Log("Congratulations! You caught the fish!");
-                fishInventory.FishScore();
-                fishOnHook = false;
-            }
-            else
-            {
-                Debug.Log(string.Format("Press Space {0} more time(s) to catch the fish.", 3 - spaceKeyPressCount));
-            }
-        }
-    }
+    //private void GetFish()
+    //{
+    //    if (fishOnHook && isThreeTapMode)
+    //    {
+    //        spaceKeyPressCount++;
+    //        if (spaceKeyPressCount >= 3)
+    //        {
+    //            Debug.Log("Congratulations! You caught the fish!");
+    //            fishInventory.FishScore();
+    //            fishOnHook = false;
+    //        }
+    //        else
+    //        {
+    //            Debug.Log(string.Format("Press Space {0} more time(s) to catch the fish.", 3 - spaceKeyPressCount));
+    //        }
+    //    }
+    //}
 
     public void MashReelButton()
     {
-        if (fishOnHook && !isThreeTapMode)
+        if (fishOnHook && isThreeTapMode)
         {
             spaceKeyPressCount++;
             if (spaceKeyPressCount >= 10)
@@ -90,7 +90,7 @@ public class AccessibilityMode : MonoBehaviour
 
     private void CastRod()
     {
-        if (!fishOnHook)
+        if (!fishOnHook && isThreeTapMode)
         {
             float fishCatchChance = Random.Range(0f, 5f);
             if (fishCatchChance < 3.5f)

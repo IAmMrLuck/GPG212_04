@@ -1,18 +1,112 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Controls;
 
-public class RodBehaviour : MonoBehaviour
+namespace ConaLuk
 {
-    // Start is called before the first frame update
-    void Start()
+
+
+
+    public class RodBehaviour : MonoBehaviour
     {
-        
+
+        private int spaceKeyPressCount;
+        public static bool fishOnHook;
+
+        [SerializeField] private GameObject fishOnHookMsg;
+
+        private bool isThreeTapMode;
+
+        [SerializeField] private FishInventory fishInventory;
+
+        public string[] availableFish;
+
+        private void Start()
+        {
+            fishOnHook = false;
+            fishOnHookMsg.SetActive(false);
+            isThreeTapMode = false;
+        }
+
+        private void Update()
+        {
+            CastRod();
+            MashReelButton();
+        }
+
+        public void MashReelButton()
+        {
+            if (fishOnHook && !isThreeTapMode)
+            {
+                var touch = Touchscreen.current.primaryTouch;
+                if (touch.press.isPressed)
+                {
+                    if (touch.phase.ReadValue() == UnityEngine.InputSystem.TouchPhase.Ended && touch.delta.ReadValue().magnitude > 0.5f)
+                    {
+                        Debug.Log("Swipe detected! You caught the fish!");
+                        CatchRandomFish();
+                        fishInventory.FishScore();
+                    }
+                    else
+                    {
+                        Debug.Log("Swipe motion not detected. Keep swiping to catch the fish!");
+                    }
+                }
+            }
+        }
+
+
+        private void CastRod()
+        {
+            if (!fishOnHook)
+            {
+                var gyro = UnityEngine.InputSystem.InputSystem.GetDevice<UnityEngine.InputSystem.Gyroscope>();
+                if (gyro != null && gyro.enabled)
+                {
+                    if (gyro.angularVelocity.ReadValue().y > 5f)
+                    {
+                        Debug.Log("Flick motion detected! Fish is on the hook");
+                        StartCoroutine(ActivateFishPrompt());
+                        fishOnHook = true;
+                        spaceKeyPressCount = 0;
+                        Debug.Log("Press Space to catch the fish!");
+                    }
+                    else
+                    {
+                        Debug.Log("Not even a nibble!");
+                    }
+                }
+                else
+                {
+                    Debug.Log("Gyroscope not available on the device!");
+                }
+            }
+        }
+
+        private IEnumerator ActivateFishPrompt()
+        {
+            Debug.Log("Coroutine Started");
+            fishOnHookMsg.SetActive(true);
+            yield return new WaitForSeconds(2);
+            fishOnHookMsg.SetActive(false);
+        }
+
+        public void CatchRandomFish()
+        {
+            int randomIndex = Random.Range(0, availableFish.Length);
+            string fishName = availableFish[randomIndex];
+            Debug.Log("Random Number selected " + randomIndex);
+            Debug.Log("Fish Caught was " + fishName);
+            Catch(fishName);
+        }
+
+        private void Catch(string fishName)
+        {
+            Debug.Log("Called Catch()");
+            fishInventory.CatchFish(fishName);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

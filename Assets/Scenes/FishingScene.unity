@@ -379,7 +379,7 @@ GameObject:
   - component: {fileID: 205582968}
   - component: {fileID: 205582967}
   m_Layer: 5
-  m_Name: Reef Shark
+  m_Name: Star Fish
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -419,7 +419,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f051d5e5e8c1ce4b8d8b003f0f1baaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentFish: {fileID: 11400000, guid: 7734195c132432f4292e628289fed9ab, type: 2}
+  currentFish: {fileID: 11400000, guid: b1f68bcbde768a0409ebd417306a4785, type: 2}
   nameText: {fileID: 1050809359}
   fishImage: {fileID: 205582968}
   descriptionText: {fileID: 705663506}
@@ -4022,6 +4022,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2021439037}
   - component: {fileID: 2021439036}
+  - component: {fileID: 2021439038}
   m_Layer: 0
   m_Name: Rod
   m_TagString: Untagged
@@ -4096,6 +4097,27 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2021439038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2021439035}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94fc6fa857eefca4f8876d35fb2f16ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fishOnHookMsg: {fileID: 1131721629}
+  fishInventory: {fileID: 849500324}
+  availableFish:
+  - Murray Cod
+  - Silver Perch
+  - Golden Perch
+  - Barramundi
+  - Australian Bass
+  - Reef Shark
 --- !u!1 &2044316806
 GameObject:
   m_ObjectHideFlags: 0
