@@ -11,6 +11,7 @@ namespace ConaLuk
         [SerializeField] private FishBehaviour fishBehaviourCS;
         [SerializeField] private GameObject loadingPanel;
         [SerializeField] private TMP_Text reelItIn;
+        [SerializeField] private AudioSource castingSound;
 
         private int _reelButtonPressCount;
 
@@ -59,6 +60,7 @@ namespace ConaLuk
         {
             if (!FishBehaviour.isFishOnHook && AccessibilityButton.isAccessibilityMode)
             {
+                castingSound.Play();
                 fishBehaviourCS.CheckIsFishCaught();              
             }
         }

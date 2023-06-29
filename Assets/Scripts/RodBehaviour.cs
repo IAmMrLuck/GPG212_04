@@ -14,6 +14,7 @@ namespace ConaLuk
         [SerializeField] private GameObject fishOnHookMsg;
         [SerializeField] private TMP_Text swipeText;
         [SerializeField] private GameObject loadingPanel;
+        [SerializeField] private AudioSource castSound;
 
         [Header("String of Fish")]
         public string[] availableFish;
@@ -125,6 +126,7 @@ namespace ConaLuk
 
             if (!FishBehaviour.isFishOnHook && !AccessibilityButton.isAccessibilityMode)
             {
+                castSound.Play();
                 fishBehaviourCS.CheckIsFishCaught();
             }
         }
