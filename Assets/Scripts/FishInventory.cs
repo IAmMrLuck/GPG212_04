@@ -10,7 +10,6 @@ public class FishInventory : MonoBehaviour
     public GameObject[] inventoryImages;
     public string[] fishNames;
 
-    public GameObject caughtFish;
     
 
     void Start()
@@ -23,7 +22,7 @@ public class FishInventory : MonoBehaviour
     {
 
         fishingScore++;
-        AccessibilityMode.fishOnHook = false;
+        FishBehaviour.isFishOnHook = false;
 
         Debug.Log("Score is " + fishingScore);
 

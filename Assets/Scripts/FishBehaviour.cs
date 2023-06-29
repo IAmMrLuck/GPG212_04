@@ -5,48 +5,33 @@ using UnityEngine;
 
 namespace ConaLuk
 {
-
     public class FishBehaviour : MonoBehaviour
     {
-        [SerializeField] private Rigidbody2D fishRB;
-        [SerializeField] private GameObject fish;
-        [SerializeField] private GameObject lineCatch;
+        [SerializeField] private FishInventory fishInventory;
 
-        [SerializeField] private GameObject caughtFish;
-        [SerializeField] private Transform canvasTransform;
-        [SerializeField] private Transform placeToSpawn;
+        public string[] availableFish;
 
-        private bool onHook = false;
+        //public string[] availableFish = {
+        //    "One",
+        //    "Two",
+        //    "Three"
+        //    };
+        public static bool isFishOnHook;
 
-        // animations for line
-        // 
-
-
-        // Start is called before the first frame update
-        void Start()
+        public void CatchRandomFish()
         {
-            // fishgame.Play();
+            int randomIndex = Random.Range(0, availableFish.Length);
+            string fishName = availableFish[randomIndex];
+            Debug.Log("Random Number selected " + randomIndex);
+            Debug.Log("Fish Caught was " + fishName);
+            isFishOnHook = false;
+            Catch(fishName);
         }
 
-        // Update is called once per frame
-        void Update()
+        private void Catch(string fishName)
         {
-
-            if(Input.GetKey(KeyCode.Space))
-            {
-                fish.transform.SetParent(lineCatch.transform);
-                fishRB.isKinematic = true;
-            }
-            // is the fish on a hook
-            // if it is, then prompt player to reel it in
-
-            // reduce alpha on the bridge
-            // the logic for the reel will be in the fishing rod
-
-
-            // if not, prompt player to through line
-
+            Debug.Log("Called Catch()");
+            fishInventory.CatchFish(fishName);
         }
-
     }
 }

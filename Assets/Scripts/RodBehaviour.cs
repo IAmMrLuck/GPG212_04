@@ -1,74 +1,117 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
 
 namespace ConaLuk
 {
 
-
-
     public class RodBehaviour : MonoBehaviour
     {
-
-        private int spaceKeyPressCount;
-        public static bool fishOnHook;
-
+        [Header("Serialized Fields")]
+        [SerializeField] private FishBehaviour fishBehaviourCS;
         [SerializeField] private GameObject fishOnHookMsg;
 
-        private bool isThreeTapMode;
-
-        [SerializeField] private FishInventory fishInventory;
-
+        [Header("String of Fish")]
         public string[] availableFish;
+
+        [Header("Private Fields")]
+        private Vector3 _firstPos;
+        private Vector3 _lastPos;
+        private float _dragDistance;
+        private int _swipeCount;
+
 
         private void Start()
         {
-            fishOnHook = false;
             fishOnHookMsg.SetActive(false);
-            isThreeTapMode = false;
         }
 
-        private void Update()
+        void Update() 
         {
-            MashReelButton();
-        }
-
-        public void MashReelButton()
-        {
-            if (fishOnHook && !isThreeTapMode)
+            if (Input.touchCount == 1)
             {
-                var touch = Touchscreen.current.primaryTouch;
-                if (touch.press.isPressed)
+                Touch touch = Input.GetTouch(0);
+                if (touch.phase == TouchPhase.Began)
                 {
-                    Debug.Log("ScreenTouched");
-                    if (touch.phase.ReadValue() == UnityEngine.InputSystem.TouchPhase.Ended && touch.delta.ReadValue().magnitude > 0.5f)
+                    _firstPos = touch.position;
+                    _lastPos = touch.position;
+                }
+                else if (touch.phase == TouchPhase.Moved)
+                {
+                    _lastPos = touch.position;
+                }
+                else if (touch.phase == TouchPhase.Ended)
+                {
+                    _lastPos = touch.position;
+
+                    if (Mathf.Abs(_lastPos.x - _firstPos.x) > _dragDistance || Mathf.Abs(_lastPos.y - _firstPos.y) > _dragDistance)
                     {
-                        Debug.Log("Swipe detected! You caught the fish!");
-                        CatchRandomFish();
-                        fishInventory.FishScore();
+                        if (Mathf.Abs(_lastPos.x - _firstPos.x) > Mathf.Abs(_lastPos.y - _firstPos.y))
+                        {
+                            if (_lastPos.x > _firstPos.x)
+                            {
+                                Debug.Log("Right Swipe");
+                            }
+                            else
+                            {
+                                Debug.Log("Left Swipe");
+                            }
+                        }
+                        else
+                        {
+                            if (_lastPos.y > _firstPos.y)
+                            {
+                                FishCatcher();
+                                Debug.Log("Up Swipe");
+                            }
+                            else
+                            {
+                                FishCatcher();
+                                Debug.Log("Down Swipe");
+                            }
+                        }
                     }
                     else
                     {
-                        Debug.Log("Swipe motion not detected. Keep swiping to catch the fish!");
+                        Debug.Log("Tap");
                     }
                 }
             }
         }
 
+        private void FishCatcher()
+        {
+            if (FishBehaviour.isFishOnHook && !AccessibilityButton.isAccessibilityMode)
+            {
+                Debug.Log("Called FishCatcher()");
+
+                _swipeCount++;
+                if (_swipeCount >= 10)
+                {
+                    fishBehaviourCS.CatchRandomFish();
+                    FishBehaviour.isFishOnHook = false;
+                }
+            }
+            else
+            {
+                Debug.Log("no Fish on hook");
+            }
+        }
 
         private void OnTriggerEnter2D(Collider2D other)
         {
             Debug.Log("ball entered trigger");
 
-            if (!fishOnHook && !isThreeTapMode)
+            if (!FishBehaviour.isFishOnHook && !AccessibilityButton.isAccessibilityMode)
             {
                 StartCoroutine(ActivateFishPrompt());
-                fishOnHook = true;
-                spaceKeyPressCount = 0;
-                Debug.Log("Press Space to catch the fish!");
+                FishBehaviour.isFishOnHook = true;
+                Debug.Log("fishOnHook is " + FishBehaviour.isFishOnHook);
+                _swipeCount = 0;
+                Debug.Log("Rod Casted with flick");
             }
+
             else
             {
                 Debug.Log("Not even a nibble!");
@@ -83,20 +126,5 @@ namespace ConaLuk
             fishOnHookMsg.SetActive(false);
         }
 
-        public void CatchRandomFish()
-        {
-            int randomIndex = Random.Range(0, availableFish.Length);
-            string fishName = availableFish[randomIndex];
-            Debug.Log("Random Number selected " + randomIndex);
-            Debug.Log("Fish Caught was " + fishName);
-            Catch(fishName);
-        }
-
-        private void Catch(string fishName)
-        {
-            Debug.Log("Called Catch()");
-            fishInventory.CatchFish(fishName);
-        }
     }
-
 }

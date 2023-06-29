@@ -8,7 +8,6 @@ public class RodCast : MonoBehaviour
     private float directionY;
     private float castSpeed = 20f;
     
-
     private void Start()
     {
         castRB = GetComponent<Rigidbody2D>();
@@ -24,6 +23,4 @@ public class RodCast : MonoBehaviour
     {
         castRB.velocity = new Vector2 (directionY, 0f);
     }
-
-
 }
