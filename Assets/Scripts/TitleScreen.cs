@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using EasyAudioSystem;
 
 public class TitleScreen : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class TitleScreen : MonoBehaviour
     [SerializeField] private GameObject startButton;
     [SerializeField] private GameObject helpButton;
     [SerializeField] private GameObject helpPanel;
+    [SerializeField] AudioManager audioManager;
 
     void Start()
     {
@@ -17,6 +19,7 @@ public class TitleScreen : MonoBehaviour
         helpButton.SetActive(false);
         helpPanel.SetActive(false);
         Invoke("LoadButtons", 2.5f);
+        audioManager.Play("Title Track");
     }
 
     public void LoadButtons()
@@ -34,5 +37,7 @@ public class TitleScreen : MonoBehaviour
     {
         helpPanel.SetActive(true);
     }
+
+
 
 }

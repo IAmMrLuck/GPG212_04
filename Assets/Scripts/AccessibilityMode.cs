@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using TMPro;
 
 namespace ConaLuk
 {
@@ -8,6 +9,8 @@ namespace ConaLuk
     {
         [SerializeField] private GameObject fishOnHookMsg;
         [SerializeField] private FishBehaviour fishBehaviourCS;
+
+        [SerializeField] private TMP_Text reelItIn;
 
         private int _reelButtonPressCount;
 
@@ -21,14 +24,17 @@ namespace ConaLuk
         {
             if (FishBehaviour.isFishOnHook && AccessibilityButton.isAccessibilityMode)
             {
-                _reelButtonPressCount++;
-                if (_reelButtonPressCount >= 10)
+                _reelButtonPressCount--;
+                if (_reelButtonPressCount <= 0)
                 {
                     Debug.Log("Congratulations! You caught the fish!");
                     fishBehaviourCS.CatchRandomFish();
+                    reelItIn.text = null;
                 }
                 else
                 {
+                    reelItIn.text = $"Keep Reeling it In, only {_reelButtonPressCount} to go";
+                    
                     Debug.Log(string.Format("Press Space {0} more time(s) to catch the fish.", 10 - _reelButtonPressCount));
                 }
             }
@@ -44,7 +50,7 @@ namespace ConaLuk
                     Debug.Log("Fish is on the hook");
                     StartCoroutine(ActivateFishPrompt());
                     FishBehaviour.isFishOnHook = true;
-                    _reelButtonPressCount = 0;
+                    _reelButtonPressCount = 10;
                     Debug.Log("Press Space to catch the fish!");
                 }
 
