@@ -13,6 +13,7 @@ namespace ConaLuk
         [SerializeField] private FishBehaviour fishBehaviourCS;
         [SerializeField] private GameObject fishOnHookMsg;
         [SerializeField] private TMP_Text swipeText;
+        [SerializeField] private GameObject loadingPanel;
 
         [Header("String of Fish")]
         public string[] availableFish;
@@ -33,6 +34,8 @@ namespace ConaLuk
         {
             if (FishBehaviour.isFishChanceMet == true)
             {
+                loadingPanel.SetActive(false);
+
                 Debug.Log("Fish is on the hook");
                 StartCoroutine(ActivateFishPrompt());
                 FishBehaviour.isFishOnHook = true;
@@ -109,7 +112,6 @@ namespace ConaLuk
                 else
                 {
                     swipeText.text = $"Keep Reeling it In, only {_swipeCount} to go";
-
                 }
             }
             else
@@ -120,12 +122,12 @@ namespace ConaLuk
 
         private void OnTriggerEnter2D(Collider2D other)
         {
+            swipeText.text = $"ball entered trigger";
+
             if (!FishBehaviour.isFishOnHook && AccessibilityButton.isAccessibilityMode)
             {
                 fishBehaviourCS.CheckIsFishCaught();
             }
-            Debug.Log("ball entered trigger");
-         
         }
         private IEnumerator ActivateFishPrompt()
         {

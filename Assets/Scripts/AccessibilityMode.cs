@@ -9,7 +9,7 @@ namespace ConaLuk
     {
         [SerializeField] private GameObject fishOnHookMsg;
         [SerializeField] private FishBehaviour fishBehaviourCS;
-
+        [SerializeField] private GameObject loadingPanel;
         [SerializeField] private TMP_Text reelItIn;
 
         private int _reelButtonPressCount;
@@ -24,6 +24,7 @@ namespace ConaLuk
         {
             if (FishBehaviour.isFishChanceMet == true)
             {
+                loadingPanel.SetActive(false);
                 Debug.Log("Fish is on the hook");
                 StartCoroutine(ActivateFishPrompt());
                 FishBehaviour.isFishOnHook = true;
