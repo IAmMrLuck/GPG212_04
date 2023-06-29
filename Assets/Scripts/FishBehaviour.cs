@@ -9,6 +9,7 @@ namespace ConaLuk
     {
         [SerializeField] private FishInventory fishInventory;
 
+
         public string[] availableFish;
 
         //public string[] availableFish = {
@@ -16,7 +17,9 @@ namespace ConaLuk
         //    "Two",
         //    "Three"
         //    };
+
         public static bool isFishOnHook;
+        public static bool isFishChanceMet;
 
         public void CatchRandomFish()
         {
@@ -32,6 +35,29 @@ namespace ConaLuk
         {
             Debug.Log("Called Catch()");
             fishInventory.CatchFish(fishName);
+        }
+
+        public void CheckIsFishCaught()
+        {
+            // three dot animation
+            Debug.Log("checking if caught");
+
+            float fishCatchChance = Random.Range(0f, 5f);
+
+            if (fishCatchChance < 3.5f)
+            {
+                Invoke("SetFishBool", 3);
+            }   
+
+            else
+            {
+                Debug.Log("Not even a nibble!");
+            }
+        }
+
+        public void SetFishBool()
+        {
+            isFishChanceMet = true;
         }
     }
 }

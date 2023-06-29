@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 using UnityEngine.InputSystem.Controls;
 
 namespace ConaLuk
@@ -11,6 +12,7 @@ namespace ConaLuk
         [Header("Serialized Fields")]
         [SerializeField] private FishBehaviour fishBehaviourCS;
         [SerializeField] private GameObject fishOnHookMsg;
+        [SerializeField] private TMP_Text swipeText;
 
         [Header("String of Fish")]
         public string[] availableFish;
@@ -29,6 +31,16 @@ namespace ConaLuk
 
         void Update() 
         {
+            if (FishBehaviour.isFishChanceMet == true)
+            {
+                Debug.Log("Fish is on the hook");
+                StartCoroutine(ActivateFishPrompt());
+                FishBehaviour.isFishOnHook = true;
+                _swipeCount = 10;
+                Debug.Log("Press Space to catch the fish!");
+                FishBehaviour.isFishChanceMet = false;
+            }
+
             if (Input.touchCount == 1)
             {
                 Touch touch = Input.GetTouch(0);
@@ -86,11 +98,18 @@ namespace ConaLuk
             {
                 Debug.Log("Called FishCatcher()");
 
-                _swipeCount++;
-                if (_swipeCount >= 10)
+                _swipeCount--;
+
+                if (_swipeCount <= 0)
                 {
                     fishBehaviourCS.CatchRandomFish();
                     FishBehaviour.isFishOnHook = false;
+                }
+
+                else
+                {
+                    swipeText.text = $"Keep Reeling it In, only {_swipeCount} to go";
+
                 }
             }
             else
@@ -101,23 +120,13 @@ namespace ConaLuk
 
         private void OnTriggerEnter2D(Collider2D other)
         {
+            if (!FishBehaviour.isFishOnHook && AccessibilityButton.isAccessibilityMode)
+            {
+                fishBehaviourCS.CheckIsFishCaught();
+            }
             Debug.Log("ball entered trigger");
-
-            if (!FishBehaviour.isFishOnHook && !AccessibilityButton.isAccessibilityMode)
-            {
-                StartCoroutine(ActivateFishPrompt());
-                FishBehaviour.isFishOnHook = true;
-                Debug.Log("fishOnHook is " + FishBehaviour.isFishOnHook);
-                _swipeCount = 0;
-                Debug.Log("Rod Casted with flick");
-            }
-
-            else
-            {
-                Debug.Log("Not even a nibble!");
-            }
+         
         }
-
         private IEnumerator ActivateFishPrompt()
         {
             Debug.Log("Coroutine Started");

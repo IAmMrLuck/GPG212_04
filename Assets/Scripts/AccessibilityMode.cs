@@ -20,6 +20,19 @@ namespace ConaLuk
             fishOnHookMsg.SetActive(false);
         }
 
+        private void Update()
+        {
+            if (FishBehaviour.isFishChanceMet == true)
+            {
+                Debug.Log("Fish is on the hook");
+                StartCoroutine(ActivateFishPrompt());
+                FishBehaviour.isFishOnHook = true;
+                _reelButtonPressCount = 10;
+                Debug.Log("Press Space to catch the fish!");
+                FishBehaviour.isFishChanceMet = false;
+            }
+        }
+
         public void MashReelButton()
         {
             if (FishBehaviour.isFishOnHook && AccessibilityButton.isAccessibilityMode)
@@ -31,6 +44,7 @@ namespace ConaLuk
                     fishBehaviourCS.CatchRandomFish();
                     reelItIn.text = null;
                 }
+
                 else
                 {
                     reelItIn.text = $"Keep Reeling it In, only {_reelButtonPressCount} to go";
@@ -44,20 +58,7 @@ namespace ConaLuk
         {
             if (!FishBehaviour.isFishOnHook && AccessibilityButton.isAccessibilityMode)
             {
-                float fishCatchChance = Random.Range(0f, 5f);
-                if (fishCatchChance < 3.5f)
-                {
-                    Debug.Log("Fish is on the hook");
-                    StartCoroutine(ActivateFishPrompt());
-                    FishBehaviour.isFishOnHook = true;
-                    _reelButtonPressCount = 10;
-                    Debug.Log("Press Space to catch the fish!");
-                }
-
-                else
-                {
-                    Debug.Log("Not even a nibble!");
-                }
+                fishBehaviourCS.CheckIsFishCaught();              
             }
         }
 
@@ -68,5 +69,7 @@ namespace ConaLuk
             yield return new WaitForSeconds(2);
             fishOnHookMsg.SetActive(false);
         }
+
+        
     }
 }
