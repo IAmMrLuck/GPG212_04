@@ -122,9 +122,8 @@ namespace ConaLuk
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            swipeText.text = $"ball entered trigger";
 
-            if (!FishBehaviour.isFishOnHook && AccessibilityButton.isAccessibilityMode)
+            if (!FishBehaviour.isFishOnHook && !AccessibilityButton.isAccessibilityMode)
             {
                 fishBehaviourCS.CheckIsFishCaught();
             }

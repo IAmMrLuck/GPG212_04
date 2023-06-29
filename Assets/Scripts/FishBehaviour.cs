@@ -26,6 +26,8 @@ namespace ConaLuk
         private void Start()
         {
             loadingPanel.SetActive(false);
+            nofish.enabled = false;
+
         }
 
         public void CatchRandomFish()
@@ -75,6 +77,13 @@ namespace ConaLuk
         {
             loadingPanel.SetActive(false);
             nofish.enabled = true;
+            Invoke("TurnOffNofish", 2);
+        }
+
+        private void TurnOffNofish()
+        {
+            nofish.enabled = false;
+
         }
     }
 }
