@@ -32,7 +32,6 @@ namespace ConaLuk
 
         private void Update()
         {
-            CastRod();
             MashReelButton();
         }
 
@@ -43,6 +42,7 @@ namespace ConaLuk
                 var touch = Touchscreen.current.primaryTouch;
                 if (touch.press.isPressed)
                 {
+                    Debug.Log("ScreenTouched");
                     if (touch.phase.ReadValue() == UnityEngine.InputSystem.TouchPhase.Ended && touch.delta.ReadValue().magnitude > 0.5f)
                     {
                         Debug.Log("Swipe detected! You caught the fish!");
@@ -58,30 +58,20 @@ namespace ConaLuk
         }
 
 
-        private void CastRod()
+        private void OnTriggerEnter2D(Collider2D other)
         {
-            if (!fishOnHook)
+            Debug.Log("ball entered trigger");
+
+            if (!fishOnHook && !isThreeTapMode)
             {
-                var gyro = UnityEngine.InputSystem.InputSystem.GetDevice<UnityEngine.InputSystem.Gyroscope>();
-                if (gyro != null && gyro.enabled)
-                {
-                    if (gyro.angularVelocity.ReadValue().y > 5f)
-                    {
-                        Debug.Log("Flick motion detected! Fish is on the hook");
-                        StartCoroutine(ActivateFishPrompt());
-                        fishOnHook = true;
-                        spaceKeyPressCount = 0;
-                        Debug.Log("Press Space to catch the fish!");
-                    }
-                    else
-                    {
-                        Debug.Log("Not even a nibble!");
-                    }
-                }
-                else
-                {
-                    Debug.Log("Gyroscope not available on the device!");
-                }
+                StartCoroutine(ActivateFishPrompt());
+                fishOnHook = true;
+                spaceKeyPressCount = 0;
+                Debug.Log("Press Space to catch the fish!");
+            }
+            else
+            {
+                Debug.Log("Not even a nibble!");
             }
         }
 
