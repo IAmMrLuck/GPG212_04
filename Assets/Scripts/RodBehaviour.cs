@@ -104,7 +104,7 @@ namespace ConaLuk
 
                 _swipeCount--;
 
-                if (_swipeCount <= 0)
+                if (_swipeCount == 0)
                 {
                     fishBehaviourCS.CatchRandomFish();
                     FishBehaviour.isFishOnHook = false;
